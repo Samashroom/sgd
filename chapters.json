@@ -1,0 +1,39 @@
+{
+  "chapters": [
+    {
+      "id": 1,
+      "title": "Как всё работает",
+      "folder": "01",
+      "pages": 23,
+      "description": "Как всё работает"
+    },
+    {
+      "id": 2,
+      "title": "Надо бы извиниться",
+      "folder": "02",
+      "pages": 17,
+      "description": "Надо бы извиниться"
+    },
+    {
+      "id": 3,
+      "title": "Фу, мерзость",
+      "folder": "03",
+      "pages": 21,
+      "description": ""
+    },
+    {
+      "id": 4,
+      "title": "Говорите, я слушаю",
+      "folder": "04",
+      "pages": 33,
+      "description": ""
+    },
+    {
+      "id": 5,
+      "title": "А что если...",
+      "folder": "05",
+      "pages": 16,
+      "description": ""
+    }
+  ]
+}
