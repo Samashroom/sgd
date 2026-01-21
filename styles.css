@@ -1,0 +1,288 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #0a0a0a;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+#app {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Панель управления (скрывается при бездействии) */
+.controls {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 100;
+    transition: opacity 0.5s ease;
+}
+
+.controls.hidden {
+    opacity: 0;
+}
+
+.controls:hover {
+    opacity: 1;
+}
+
+/* Кнопки навигации */
+.nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(20, 20, 20, 0.85);
+    color: white;
+    border: none;
+    font-size: 36px;
+    width: 70px;
+    height: 100px;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.3s ease;
+    border-radius: 0 8px 8px 0;
+    backdrop-filter: blur(5px);
+}
+
+.nav-button:hover {
+    background: rgba(40, 40, 40, 0.95);
+    width: 80px;
+}
+
+.nav-button:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+.nav-button:disabled:hover {
+    width: 70px;
+    background: rgba(20, 20, 20, 0.85);
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
+    border-radius: 8px 0 0 8px;
+}
+
+/* Основное изображение */
+.comic-image {
+    max-width: 95vw;
+    max-height: 95vh;
+    object-fit: contain;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+}
+
+/* Информация о странице */
+.page-info {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    background: rgba(20, 20, 20, 0.85);
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    font-weight: 600;
+    pointer-events: auto;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.page-info:hover {
+    background: rgba(30, 30, 30, 0.95);
+}
+
+/* Панель выбора главы */
+.chapter-selector {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    background: rgba(20, 20, 20, 0.85);
+    padding: 12px 20px;
+    border-radius: 25px;
+    pointer-events: auto;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.chapter-selector:hover {
+    background: rgba(30, 30, 30, 0.95);
+}
+
+.chapter-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.chapter-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.chapter-btn.active {
+    background: rgba(100, 150, 255, 0.8);
+    color: white;
+}
+
+/* Информация о главе (появляется при наведении на номер главы) */
+.chapter-tooltip {
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    background: rgba(20, 20, 20, 0.9);
+    padding: 15px 25px;
+    border-radius: 15px;
+    max-width: 400px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.5;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.chapter-btn:hover + .chapter-tooltip,
+.chapter-tooltip:hover {
+    opacity: 1;
+}
+
+/* Индикатор скрытия */
+.hide-indicator {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.controls.hidden .hide-indicator {
+    opacity: 0;
+}
+
+/* Состояния загрузки и ошибок */
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 20px;
+}
+
+.error {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ff6b6b;
+    font-size: 18px;
+    text-align: center;
+    padding: 30px;
+    background: rgba(20, 20, 20, 0.9);
+    border-radius: 15px;
+    max-width: 500px;
+    line-height: 1.6;
+}
+
+/* Полоса прогресса */
+.progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4a9eff, #6b5bff);
+    transition: width 0.3s ease;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .nav-button {
+        width: 50px;
+        height: 80px;
+        font-size: 28px;
+    }
+    
+    .nav-button:hover {
+        width: 50px;
+    }
+    
+    .chapter-selector {
+        padding: 10px 15px;
+        gap: 6px;
+    }
+    
+    .chapter-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+    
+    .page-info {
+        padding: 10px 20px;
+        font-size: 15px;
+        bottom: 20px;
+    }
+    
+    .comic-image {
+        max-width: 100vw;
+        max-height: 100vh;
+    }
+}
+
+/* Анимация перехода страниц */
+.page-transition {
+    animation: pageFade 0.3s ease;
+}
+
+@keyframes pageFade {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
