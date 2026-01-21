@@ -293,6 +293,287 @@
             0% { opacity: 0.5; }
             100% { opacity: 1; }
         }
+
+        /* ==================== */
+/* МОБИЛЬНЫЕ УСТРОЙСТВА */
+/* ==================== */
+
+@media (max-width: 768px) {
+    /* Основные настройки для мобильных */
+    body {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Убираем hover-эффекты на тач-устройствах */
+    .nav-button:hover,
+    .chapter-btn:hover,
+    .page-info:hover,
+    .chapter-selector:hover {
+        transform: none;
+        background: rgba(20, 20, 20, 0.85);
+    }
+    
+    /* Увеличиваем зоны кликов для touch */
+    .nav-button {
+        width: 60px;
+        height: 120px;
+        font-size: 32px;
+        opacity: 0.9;
+        border-radius: 0;
+    }
+    
+    .nav-button.prev {
+        left: 0;
+        border-radius: 0 10px 10px 0;
+    }
+    
+    .nav-button.next {
+        right: 0;
+        border-radius: 10px 0 0 10px;
+    }
+    
+    /* Делаем кнопки навигации всегда видимыми на мобильных */
+    .controls {
+        opacity: 1 !important;
+    }
+    
+    .controls.hidden .nav-button {
+        opacity: 0.3;
+    }
+    
+    .controls.hidden .nav-button:active {
+        opacity: 1;
+    }
+    
+    /* Изображение комикса */
+    .comic-image {
+        max-width: 100vw;
+        max-height: 100vh;
+        cursor: default;
+    }
+    
+    /* Панель выбора главы - делаем меньше и компактнее */
+    .chapter-selector {
+        top: 10px;
+        padding: 8px 12px;
+        gap: 4px;
+        flex-wrap: wrap;
+        justify-content: center;
+        max-width: 90vw;
+    }
+    
+    .chapter-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+        min-width: 30px;
+        margin: 2px;
+    }
+    
+    /* Информация о странице */
+    .page-info {
+        bottom: 10px;
+        padding: 8px 16px;
+        font-size: 13px;
+        white-space: nowrap;
+        max-width: 90vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    /* Подсказка о главе */
+    .chapter-tooltip {
+        top: 70px;
+        max-width: 90vw;
+        padding: 10px 15px;
+        font-size: 12px;
+        display: none; /* Скрываем на мобильных */
+    }
+    
+    /* Индикатор скрытия */
+    .hide-indicator {
+        display: none; /* Не нужен на мобильных */
+    }
+    
+    /* Полоса прогресса */
+    .progress-bar {
+        height: 3px;
+    }
+    
+    /* Эффект для активного нажатия */
+    .nav-button:active,
+    .chapter-btn:active {
+        background: rgba(100, 150, 255, 0.8) !important;
+        transform: scale(0.95);
+    }
+    
+    /* Предотвращаем выделение текста при тапах */
+    .nav-button,
+    .chapter-btn {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+    
+    /* Анимация для feedback при нажатии */
+    @keyframes mobileTap {
+        0% { transform: scale(1); }
+        50% { transform: scale(0.95); }
+        100% { transform: scale(1); }
+    }
+    
+    .mobile-tap-feedback {
+        animation: mobileTap 0.2s ease;
+    }
+}
+
+/* ======================== */
+/* МАЛЕНЬКИЕ СМАРТФОНЫ */
+/* ======================== */
+
+@media (max-width: 480px) {
+    .nav-button {
+        width: 50px;
+        height: 100px;
+        font-size: 28px;
+    }
+    
+    .chapter-selector {
+        top: 5px;
+        padding: 6px 10px;
+    }
+    
+    .chapter-btn {
+        padding: 5px 8px;
+        font-size: 11px;
+        min-width: 28px;
+    }
+    
+    .page-info {
+        font-size: 12px;
+        padding: 6px 12px;
+        bottom: 5px;
+    }
+    
+    /* Уменьшаем отступы для очень маленьких экранов */
+    #app {
+        padding: 0;
+    }
+    
+    .comic-image {
+        border-radius: 0;
+    }
+}
+
+/* ======================== */
+/* ГОРИЗОНТАЛЬНАЯ ОРИЕНТАЦИЯ */
+/* ======================== */
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .chapter-selector {
+        top: 5px;
+        padding: 6px 10px;
+    }
+    
+    .page-info {
+        bottom: 5px;
+        padding: 6px 12px;
+    }
+    
+    .nav-button {
+        height: 80px;
+        width: 40px;
+    }
+    
+    .comic-image {
+        max-height: 98vh;
+    }
+}
+
+/* ======================== */
+/* ОЧЕНЬ БОЛЬШИЕ ЭКРАНЫ */
+/* ======================== */
+
+@media (min-width: 1200px) {
+    .nav-button {
+        width: 80px;
+        height: 120px;
+        font-size: 40px;
+    }
+    
+    .nav-button.prev {
+        left: 20px;
+    }
+    
+    .nav-button.next {
+        right: 20px;
+    }
+}
+
+/* ======================== */
+/* ПЛАНШЕТЫ (портрет) */
+/* ======================== */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .nav-button {
+        width: 65px;
+        height: 110px;
+    }
+    
+    .chapter-selector {
+        top: 20px;
+    }
+    
+    .page-info {
+        bottom: 20px;
+        padding: 10px 20px;
+    }
+}
+
+/* ======================== */
+/* ПОДДЕРЖКА IOS SAFARI */
+/* ======================== */
+
+@supports (-webkit-touch-callout: none) {
+    /* iOS-specific styles */
+    .comic-image {
+        max-height: -webkit-fill-available;
+    }
+    
+    #app {
+        height: -webkit-fill-available;
+    }
+    
+    .nav-button {
+        cursor: default;
+    }
+}
+
+/* ======================== */
+/* АДАПТИВНЫЕ ТОЧКИ ПЕРЕХОДА */
+/* ======================== */
+
+/* Маленькие планшеты */
+@media (min-width: 481px) and (max-width: 768px) {
+    .nav-button {
+        width: 55px;
+        height: 110px;
+    }
+    
+    .chapter-selector {
+        top: 15px;
+    }
+}
+
+/* Высокие устройства */
+@media (min-height: 1000px) {
+    .chapter-selector {
+        top: 40px;
+    }
+    
+    .page-info {
+        bottom: 40px;
+    }
+}
     </style>
 </head>
 <body>
@@ -484,33 +765,86 @@
                     }
                 }
             },
-            mounted() {
-                this.loadChapters();
-                
-                // Управление клавиатурой
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'ArrowLeft' || e.key === 'a') this.prevPage();
-                    if (e.key === 'ArrowRight' || e.key === 'd') this.nextPage();
-                    
-                    // Переключение глав цифрами 1-5
-                    if (e.key >= '1' && e.key <= '5') {
-                        const chapterId = parseInt(e.key);
-                        if (chapterId <= this.chapters.length) {
-                            this.switchChapter(chapterId);
-                        }
-                    }
-                    
-                    // Пробел для переключения видимости элементов управления
-                    if (e.key === ' ') {
-                        e.preventDefault();
-                        this.toggleControls();
-                    }
-                    
-                    // ESC для скрытия элементов управления
-                    if (e.key === 'Escape') {
-                        this.hideControls = true;
-                    }
-                });
+            // В методе mounted() добавим обработку touch событий
+mounted() {
+    this.loadChapters();
+    
+    // Управление клавиатурой (для десктопа)
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft' || e.key === 'a') this.prevPage();
+        if (e.key === 'ArrowRight' || e.key === 'd') this.nextPage();
+        
+        if (e.key >= '1' && e.key <= '5') {
+            const chapterId = parseInt(e.key);
+            if (chapterId <= this.chapters.length) {
+                this.switchChapter(chapterId);
+            }
+        }
+        
+        if (e.key === ' ') {
+            e.preventDefault();
+            this.toggleControls();
+        }
+        
+        if (e.key === 'Escape') {
+            this.hideControls = true;
+        }
+    });
+    
+    // Touch события для мобильных
+    let touchStartX = 0;
+    let touchStartY = 0;
+    
+    document.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+        
+        // Показываем элементы управления при касании
+        this.showControls();
+    }, { passive: true });
+    
+    document.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].screenX;
+        const touchEndY = e.changedTouches[0].screenY;
+        const diffX = touchStartX - touchEndX;
+        const diffY = touchStartY - touchEndY;
+        
+        // Определяем свайп (только горизонтальный)
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+            if (diffX > 0) {
+                // Свайп влево = следующая страница
+                this.nextPage();
+            } else {
+                // Свайп вправо = предыдущая страница
+                this.prevPage();
+            }
+        }
+    }, { passive: true });
+    
+    // Предотвращаем масштабирование на двойной тап
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', (e) => {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            e.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+    
+    // Определяем мобильное устройство
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+        // На мобильных элемента управления всегда видны
+        this.hideControls = false;
+        // Увеличиваем время скрытия элементов
+        this.controlsTimeout = 5000;
+    } else {
+        // На десктопе скрываем через 2 секунды
+        setTimeout(() => {
+            this.hideControls = true;
+        }, 2000);
+    }
+}
                 
                 // Скрываем элементы управления при загрузке
                 setTimeout(() => {
@@ -520,4 +854,5 @@
         }).mount('#app');
     </script>
 </body>
+
 </html>
