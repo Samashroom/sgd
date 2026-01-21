@@ -286,3 +286,94 @@ body {
     0% { opacity: 0.5; }
     100% { opacity: 1; }
 }
+/* Добавьте в конец файла styles.css */
+
+/* Анимации для свайпов */
+.swipe-feedback {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.swipe-left {
+    animation: swipeLeft 0.3s ease;
+}
+
+.swipe-right {
+    animation: swipeRight 0.3s ease;
+}
+
+@keyframes swipeLeft {
+    0% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translateX(-20px) scale(0.98);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes swipeRight {
+    0% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translateX(20px) scale(0.98);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Индикатор свайпа (опционально, для отладки) */
+.swipe-hint {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 8px 16px;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.swipe-hint.show {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .swipe-hint {
+        opacity: 1;
+        animation: fadeInOut 4s ease forwards;
+    }
+    
+    @keyframes fadeInOut {
+        0% { opacity: 1; }
+        70% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+}
+
+/* Улучшаем touch-интерфейс для мобильных */
+@media (max-width: 768px) {
+    .comic-image {
+        touch-action: pan-y pinch-zoom;
+    }
+    
+    .nav-button {
+        min-height: 100px;
+        min-width: 60px;
+    }
+}

@@ -12,7 +12,16 @@ createApp({
             hideControls: true,
             controlsTimer: null,
             showTransition: false,
-            isInitialized: false
+            isInitialized: false,
+            
+            // Для свайпов
+            touchStartX: 0,
+            touchStartY: 0,
+            touchEndX: 0,
+            touchEndY: 0,
+            minSwipeDistance: 50, // минимальное расстояние для свайпа в пикселях
+            maxVerticalSwipe: 30, // максимальное вертикальное отклонение для горизонтального свайпа
+            isTouching: false
         };
     },
     computed: {
@@ -178,10 +187,122 @@ createApp({
             if (this.isInitialized) {
                 this.saveProgress();
             }
+        },
+        
+        // === МЕТОДЫ ДЛЯ СВАЙПОВ ===
+        
+        handleTouchStart(event) {
+            this.isTouching = true;
+            this.touchStartX = event.changedTouches[0].screenX;
+            this.touchStartY = event.changedTouches[0].screenY;
+            this.touchEndX = this.touchStartX;
+            this.touchEndY = this.touchStartY;
+            
+            // Останавливаем дальнейшую обработку, чтобы не мешать другим событиям
+            event.stopPropagation();
+        },
+        
+        handleTouchMove(event) {
+            if (!this.isTouching) return;
+            
+            this.touchEndX = event.changedTouches[0].screenX;
+            this.touchEndY = event.changedTouches[0].screenY;
+            
+            // Предотвращаем скролл страницы при горизонтальном свайпе
+            const deltaX = this.touchEndX - this.touchStartX;
+            if (Math.abs(deltaX) > 10) {
+                event.preventDefault();
+            }
+        },
+        
+        handleTouchEnd(event) {
+            if (!this.isTouching) return;
+            this.isTouching = false;
+            
+            const deltaX = this.touchEndX - this.touchStartX;
+            const deltaY = this.touchEndY - this.touchStartY;
+            const absDeltaX = Math.abs(deltaX);
+            const absDeltaY = Math.abs(deltaY);
+            
+            // Определяем направление свайпа
+            if (absDeltaX > this.minSwipeDistance && absDeltaY < this.maxVerticalSwipe) {
+                if (deltaX > 0) {
+                    // Свайп вправо - предыдущая страница
+                    this.prevPage();
+                    this.showSwipeFeedback('right');
+                } else {
+                    // Свайп влево - следующая страница
+                    this.nextPage();
+                    this.showSwipeFeedback('left');
+                }
+                
+                // Предотвращаем клик после свайпа
+                event.preventDefault();
+                event.stopPropagation();
+            } else if (absDeltaY > this.minSwipeDistance && absDeltaX < this.maxVerticalSwipe) {
+                // Вертикальный свайп - показываем/скрываем элементы управления
+                if (deltaY > 0) {
+                    // Свайп вниз - показываем элементы управления
+                    this.showControls();
+                } else {
+                    // Свайп вверх - скрываем элементы управления
+                    this.hideControls = true;
+                }
+                
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            // Сбрасываем значения
+            this.touchStartX = 0;
+            this.touchStartY = 0;
+            this.touchEndX = 0;
+            this.touchEndY = 0;
+        },
+        
+        handleTouchCancel() {
+            this.isTouching = false;
+            this.touchStartX = 0;
+            this.touchStartY = 0;
+            this.touchEndX = 0;
+            this.touchEndY = 0;
+        },
+        
+        // Визуальная обратная связь при свайпе
+        showSwipeFeedback(direction) {
+            const img = document.querySelector('.comic-image');
+            if (!img) return;
+            
+            // Добавляем класс для анимации
+            img.classList.add('swipe-feedback');
+            img.classList.add(`swipe-${direction}`);
+            
+            // Убираем классы через короткое время
+            setTimeout(() => {
+                img.classList.remove('swipe-feedback');
+                img.classList.remove(`swipe-${direction}`);
+            }, 300);
+        },
+        
+        // Инициализация свайпов
+        initSwipe() {
+            const appElement = document.getElementById('app');
+            if (!appElement) return;
+            
+            // Добавляем обработчики свайпов
+            appElement.addEventListener('touchstart', this.handleTouchStart, { passive: false });
+            appElement.addEventListener('touchmove', this.handleTouchMove, { passive: false });
+            appElement.addEventListener('touchend', this.handleTouchEnd, { passive: false });
+            appElement.addEventListener('touchcancel', this.handleTouchCancel, { passive: false });
+            
+            console.log('Свайпы инициализированы');
         }
     },
     mounted() {
         this.loadChapters();
+        
+        // Инициализация свайпов
+        this.initSwipe();
         
         // Управление клавишами
         document.addEventListener('keydown', (e) => {
